@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pan
 import random as rd
-donnees = pan.read_excel("parrain.xlsx", sheet_name="python", usecols="B,C", engine="openpyxl")
+donnees = pan.read_csv("parrain.csv")
 base=pan.DataFrame(donnees)
 print(base)
 def main():
