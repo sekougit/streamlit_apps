@@ -12,8 +12,8 @@ def main():
     if option=="Parrainage AS1":
         st.image("dashboard_excel.png",caption="Tableau de Bord Excel")
         st.write(base)
-        new=base["Prénoms_et_NOM"].tolist()
-        old=base["NOM"].tolist()
+        new=base["prénoms_et_nom"].tolist()
+        old=base["nom"].tolist()
         alea=rd.randint(0,22)
         alea_1=rd.randint(0,22)
         if st.button("Appuyer ici"):
@@ -24,13 +24,13 @@ def main():
             st.write("Le filleuil:",new[alea_1])
 
     if option=="Parrainage ISEP1":  
-        st.image("C:/Users/Sekou Drame/moncodepython/tableau_bord.jpg",caption="Tableau de Bord Excel")
+        st.image("dashboard_excel.png",caption="Tableau de Bord Excel")
         st.write(base)
     if option=="Parrainage ISE-ECO":
-        st.image("C:/Users/Sekou Drame/moncodepython/tableau_bord.jpg",caption="Tableau de Bord Excel")
+        st.image("dashboard_excel.png",caption="Tableau de Bord Excel")
         st.write(base)
     if option=="Parrainage ISE-MATHS":
-        st.image("C:/Users/Sekou Drame/moncodepython/tableau_bord.jpg",caption="Tableau de Bord Excel")
+        st.image("dashboard_excel.png",caption="Tableau de Bord Excel")
         st.write(base)
 
 if __name__=='__main__':
