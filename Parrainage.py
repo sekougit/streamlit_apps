@@ -10,7 +10,7 @@ def main():
     st.sidebar.write("Bienvenu dans le menu de l'application") 
     option=st.sidebar.radio("Faites votre choix",["Parrainage AS1","Parrainage ISEP1","Parrainage ISE-ECO","Parrainage ISE-MATHS"]) 
     if option=="Parrainage AS1":
-        st.image("C:/Users/Sekou Drame/moncodepython/tableau_bord.jpg",caption="Tableau de Bord Excel")
+        st.image("dashboard_excel.png",caption="Tableau de Bord Excel")
         st.write(base)
         new=base["Prénoms_et_NOM"].tolist()
         old=base["NOM"].tolist()
