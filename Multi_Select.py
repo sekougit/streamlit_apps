@@ -12,7 +12,7 @@ import query
 
 st.set_page_config(page_title="Tableau de bord",page_icon=":bar_chart:",layout="wide")
 
-donnees=pan.read_csv("export.csv")
+donnees=pan.read_excel("parrain.xlsx",sheet_name="export",usecols="A,B,E,F,G,H,I,J,K")
 bon_base=pan.DataFrame(donnees)
 Moyenne_1=bon_base["Moyenne_1S"]
 Moyenne_2=bon_base["Moyenne_2S"]
