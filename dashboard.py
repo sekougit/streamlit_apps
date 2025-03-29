@@ -13,7 +13,7 @@ except FileNotFoundError:
     st.stop()
 
 # 📌 Vérifier si les colonnes essentielles existent
-required_columns = ["SK_ID_CURR", "TARGET"]
+required_columns = ["SK_ID_CURR"]
 for col in required_columns:
     if col not in donnees_test.columns:
         st.error(f"❌ La colonne {col} est absente du fichier de test.")
