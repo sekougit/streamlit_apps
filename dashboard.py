@@ -5,12 +5,11 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import re
 import random as rd
-from sklearn.linear_model import LinearRegression
 from models_scoring import get_trained_model, train_model  # Assurez-vous que cette fonction existe et fonctionne bien
 # Importer le modèle entraîné
 #import sys
 #C:/Users/Sekou Drame/Desktop/EXCEL/EXCEL_AS1
-donnees = pan.read_csv("test_imputed.csv")
+donnees = pan.read_csv("sample_test_imputed.csv")
 bon_base = pan.DataFrame(donnees)
 base_sample = bon_base.sample(50)
 list_id = base_sample['SK_ID_CURR'].unique().tolist()
