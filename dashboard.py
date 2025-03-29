@@ -51,13 +51,13 @@ def main():
 
         if st.button("Prédire la solvabilité"):
             try:
-                input_data = base_sample[base_sample["SK_ID_CURR"] == id].drop(columns=["TARGET", "SK_ID_CURR"]).values
+                input_data = base_sample[base_sample["SK_ID_CURR"] == id].drop(columns=["SK_ID_CURR"]).values
                 prediction = model.predict(input_data)[0]
 
                 if prediction == 1:
-                    st.success("✅ Crédit accepté !")
+                    st.success("✅ Crédit refusé !")
                 else:
-                    st.error("❌ Crédit refusé.")
+                    st.error("❌ Crédit accordé.")
             except Exception as e:
                 st.error(f"Erreur de prédiction : {e}")
 
