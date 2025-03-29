@@ -1,57 +1,65 @@
 import streamlit as st
 import numpy as np
-import pandas as pan
+import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
-import re
-import random as rd
-from models_scoring import get_trained_model, train_model  # Assurez-vous que cette fonction existe et fonctionne bien
-# Importer le modèle entraîné
-#import sys
-#C:/Users/Sekou Drame/Desktop/EXCEL/EXCEL_AS1
-donnees = pan.read_csv("sample_test_imputed.csv")
-bon_base = pan.DataFrame(donnees)
-base_sample = bon_base.sample(50)
-list_id = base_sample['SK_ID_CURR'].unique().tolist()
+from models_scoring import get_trained_model  # Importer le modèle depuis model.py
 
-# Charger le modèle entraîné (fonction supposée exister)
-model = get_trained_model()  # Ici, tu dois t'assurer que cette fonction renvoie un modèle entraîné
+# 📌 Charger les données de test
+try:
+    donnees_test = pd.read_csv("sample_test_imputed.csv")
+except FileNotFoundError:
+    st.error("❌ Fichier sample_test_imputed.csv non trouvé.")
+    st.stop()
 
+# 📌 Vérifier si les colonnes essentielles existent
+required_columns = ["SK_ID_CURR", "TARGET"]
+for col in required_columns:
+    if col not in donnees_test.columns:
+        st.error(f"❌ La colonne {col} est absente du fichier de test.")
+        st.stop()
+
+# 📌 Préparer un échantillon de données
+base_sample = donnees_test.sample(50, random_state=42)
+list_id = base_sample["SK_ID_CURR"].unique().tolist()
+
+# 📌 Charger le modèle
+model = get_trained_model()
+
+# 📌 Interface Streamlit
 def main():
-    st.sidebar.checkbox("Bienvenu dans le menu de l'application", False)
-    st.sidebar.write("Bienvenu dans le menu de l'application")
+    st.sidebar.write("Bienvenue dans le menu de l'application")
     option = st.sidebar.radio("Faites votre choix", ["Accueil", "Données", "Prédiction"])
-    id = st.sidebar.selectbox("Veuillez choisir l'ID", list_id)
-    
+    id = st.sidebar.selectbox("Veuillez choisir l'ID client", list_id)
+
     if option == "Accueil":
         st.title("Application de prédiction de scoring crédit")
-        st.markdown('''
-            **La mise en application du scoring de crédit est essentielle pour optimiser l’octroi de prêts en réduisant les risques financiers
-            pour les institutions bancaires et de microfinance. En utilisant un modèle de machine learning, il devient possible d’évaluer rapidement et
-            objectivement la solvabilité d’un individu en se basant sur des données historiques et des critères prédictifs. Cela permet non seulement d’accélérer
-            le processus de décision, mais aussi d’améliorer l’inclusion financière en offrant des opportunités de crédit à des personnes qui pourraient être exclues
-            par les méthodes traditionnelles d’évaluation. De plus, un système automatisé de scoring réduit les biais humains et renforce la transparence des décisions,
-            contribuant ainsi à une meilleure gestion du risque et à une relation de confiance entre prêteurs et emprunteurs.**''')
+        st.markdown("""
+            **L'application de scoring de crédit aide à évaluer la solvabilité des individus à l'aide d'un modèle de Machine Learning.
+            Cela accélère le processus de décision et améliore l'inclusion financière tout en réduisant les biais humains.**
+        """)
 
-    if option == "Données":
-        st.title("Partie pour les visualisations de tableau de données automatiques")
+    elif option == "Données":
+        st.title("Visualisation des données")
         st.subheader("Auteur: Sèkou Dramé")
-        st.write("Tableau de données des élèves de la classe AS1")
-        st.write("Dans cette base, nous avons ", len(base_sample), " individus.")
+        st.write(f"Base de données avec {len(base_sample)} individus")
         st.write(base_sample)
 
-    if option == "Prédiction":
-        infos=base_sample[base_sample["SK_ID_CURR"] == id].T
+    elif option == "Prédiction":
+        infos = base_sample[base_sample["SK_ID_CURR"] == id].T
         st.write(infos)
-        # Prédiction
-        if st.button("Prédire la solvabilité"):
-            input_data = base_sample[base_sample["SK_ID_CURR"] == id].drop(columns=["TARGET", "SK_ID_CURR"]).values
-            prediction = model.predict(input_data)[0]
 
-            if prediction == 1:
-                st.success("✅ Crédit accepté !")
-            else:
-                st.error("❌ Crédit refusé.")
+        if st.button("Prédire la solvabilité"):
+            try:
+                input_data = base_sample[base_sample["SK_ID_CURR"] == id].drop(columns=["TARGET", "SK_ID_CURR"]).values
+                prediction = model.predict(input_data)[0]
+
+                if prediction == 1:
+                    st.success("✅ Crédit accepté !")
+                else:
+                    st.error("❌ Crédit refusé.")
+            except Exception as e:
+                st.error(f"Erreur de prédiction : {e}")
 
 if __name__ == '__main__':
     main()
